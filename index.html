@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Menu - Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+</head>
+<link rel="stylesheet" href="./styles/style.css">
+<body>
+
+    <div id="navbar">
+        <div id="logo">
+            <img src="https://www.freshmenu.com/images/fm-header-logo.svg" alt="">
+            <lable style="margin-left: 30px;font-size: 18px;color: green;">City :</lable>
+            <select name="" id="option">
+                <option value="">Bangaluru</option>
+                <option value="">Delhi</option>
+                <option value="">Mumbai</option>
+                <option value="">Prayagraj</option>
+                <option value="">Champa</option>
+            </select>
+        </div>
+       <div id="nav-list">
+           <input type="text" id="search_input" placeholder="Find your food here" oninput="debounce(main,1000)">
+           <button id="search_btn" onclick="Showin()">Search</button>
+           <p><a href="rday.html" style="color:#4CAF50; font-weight: bold;">Receipe of the day</a></p>
+           <p><a href="latest.html" style="color:#4CAF50; font-weight: bold;">Latest receipe</a></p>
+           <p><a href="latest.html" style="color:#4CAF50; font-weight: bold;">Offers</a></p>
+           <button id="profile-btn" onclick="showProfile()"><i style="font-size:24px" class="fa">&#xf2bd;</i></button>
+       </div>
+       <div id="showfood"></div>
+    </div>
+
+    
+</body>
+</html>
+<!-- <script type="module">
+
+     import {navbar} from "./components/foodnavbar.js"
+
+   let navbar_div = document.getElementById("navbar")
+   navbar_div.innerHTML = navbar();
+
+</script> -->
+
+<script>
+
+
+
+    let result_div = document.getElementById("showfood")
+   let timerId;
+
+ async function ShowsearchResult(query) {
+
+    let res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`)
+    let data = await res.json()
+    return data
+ }
+
+ function appendfood(food) {
+
+    food.forEach(({strMeal,strMealThumb,strArea,strInstructions, strYoutube}) => {
+
+        let div = document.createElement("div")
+        div.setAttribute("id" , "search_div")
+
+        div.onclick = function() {
+            getdata({strMeal,strMealThumb,strArea,strInstructions, strYoutube})
+        }
+
+        let img = document.createElement("img")
+        img.src = strMealThumb
+
+        let text_div = document.createElement("div")
+        text_div.style.marginLeft = "15px"
+        let foodname = document.createElement("p")
+        foodname.setAttribute("class" , "foodname")
+         foodname.innerText = strMeal
+
+         let foodorigin = document.createElement("p")
+         foodorigin.setAttribute("class", "foodorigin")
+         foodorigin.innerText = strArea
+
+         text_div.append(foodname,foodorigin)
+         div.append(img,text_div)
+
+        result_div.append(div)
+    })
+ }
+
+ async function main () {
+     let name = document.getElementById("search_input").value
+
+     let res = await ShowsearchResult(name)
+
+     appendfood(res.meals)
+
+ }
+
+function debounce(func,delay) {
+    result_div.style.display = "block"
+    if(timerId) {
+        clearTimeout(timerId)
+    }
+
+   timerId =  setTimeout(() => {
+        func()
+    },delay)
+
+}
+
+let flag = true
+
+function Showin() {
+    let search_input = document.getElementById("search_input")
+    if(flag == true) {
+        search_input.style.display = "block"
+        
+        flag = false
+    }else {
+        search_input.style.display = "none"
+        result_div.style.display = "none"
+        flag = true
+    }
+}
+
+if(localStorage.getItem("freshmenu") === null) {
+    localStorage.setItem("freshmenu" , JSON.stringify([]))
+}
+
+function getdata(food) {
+
+    let set = JSON.parse(localStorage.getItem("freshmenu"))
+
+    set.push(food)
+
+    localStorage.setItem("freshmenu" , JSON.stringify(set))
+}
+
+
+</script>
