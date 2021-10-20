@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <title>FreshMenu</title>
+</head>
+<link rel="stylesheet" href="./styles/style.css">
+<body>
+    
+        <!-- navbar -->
+
+        <div id="navbar">
+
+        </div>
+    
+        <!-- end navbar -->
+
+        <div id="search-result" ></div>
+
+</body>
+</html>
+<script src="index.js" type="module"></script>
+
+<script>
+    let get = JSON.parse(localStorage.getItem("freshmenu"))
+
+    let {strMeal,strMealThumb,strArea,strInstructions, strYoutube} = get[get.length-1]
+
+    let search_resultdiv = document.getElementById("search-result")
+
+    
+    
+    
+    
+    let div = document.createElement("div")
+
+  
+
+    let img = document.createElement("img")
+          img.src = strMealThumb
+  
+       
+          let foodname = document.createElement("h2")
+          
+           foodname.innerText = strMeal
+  
+           let foodorigin = document.createElement("h4")
+        
+           foodorigin.innerText = strArea
+
+           let ins = document.createElement("p")
+           ins.innerText = "Receipe : "+strInstructions
+
+           let link = document.createElement("a")
+           link.style.color = "green"
+           link.href = strYoutube
+           link.innerText = "You can refer a video"
+  
+         
+           div.append(foodname,foodorigin,img,ins,link)
+  
+           search_resultdiv.append(div)
+
+    localStorage.setItem("freshmenu" , JSON.stringify(get))
+
+</script>

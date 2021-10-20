@@ -49,22 +49,26 @@ function appendrandom(meal) {
         mealname.innerText = strMeal
 
         let mealcat = document.createElement("h4")
-        mealcat.innerText = strCategory
+
+        mealcat.innerText ="Category : " +strCategory
         
         let mealarea = document.createElement("p")
-        mealarea.innerText = strArea
+        mealarea.innerText ="Area : " + strArea
 
         let ins = document.createElement("p")
-        ins.innerText = strInstructions
+        ins.style.marginTop = "30px"
+
+        ins.innerText = "Instructions : "+strInstructions
 
         let img = document.createElement("img")
         img.src = strMealThumb
 
         let link = document.createElement("a")
-        link.innerText = "You can refer video"
+        link.style.color = "green"
+        link.innerText = "You can refer a video"
         link.href = strYoutube
 
-        div.append(mealname,mealcat,mealarea,ins,img,link)
+        div.append(mealname,mealcat,mealarea,img,ins,link)
 
         random.append(div)
     })

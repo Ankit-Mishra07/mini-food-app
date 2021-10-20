@@ -12,15 +12,28 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
+    
 </head>
 <link rel="stylesheet" href="./styles/style.css">
 <body>
+
+    <!-- navbar -->
 
     <div id="navbar">
 
     </div>
 
+    <!-- end navbar -->
+
+    <!-- slides -->
+    <div id="slides" >
+    </div>
+    <!-- slides end -->
     
+    <div style="text-align: center;margin-top: 50px;">
+          <u><h1>Favourite Foods</h1></u>
+    <div id="fav"></div>
+    </div>
 </body>
 </html>
 
@@ -30,8 +43,67 @@
 <script src="index.js" type="module"></script>
 
 <script>
+let images = [
+"https://s3-ap-southeast-1.amazonaws.com/foodvista.1/b9614c0c-d544-4b09-b5a8-d8bea51fb0bb.jpg",
+"https://s3-ap-southeast-1.amazonaws.com/foodvista.1/55442028-dce3-4389-bfac-335f821c462d.jpg" ,
+"https://s3-ap-southeast-1.amazonaws.com/foodvista.1/0c66b886-01d4-4a65-a20d-6357c2bf2f46.jpg",
+"https://s3-ap-southeast-1.amazonaws.com/foodvista.1/9ba38d75-0850-4f76-bd32-126b83b40448.jpg"
+]
+
+let slide_div = document.getElementById("slides")
+
+let img1 = document.createElement("img")
+ img1.src = images[images.length-1]
+slide_div.append(img1)
+
+let count = 0
+
+setInterval(() => {
+
+    slide_div.innerHTML = null
     
+let img = document.createElement("img")
+img.src = images[count]
+
+slide_div.append(img)
+
+count++
+
+if(count == images.length) {
+    count = 0
+}
+
+}, 2000);
+
+async function Showfav() {
+    let res = await fetch("https://www.themealdb.com/api/json/v1/1/filter.php?a=indian")
+    let data = await res.json()
+    appendfav(data.meals)
+}
+Showfav()
+
+let favcont = document.getElementById("fav")
+
+function appendfav(favmeal) {
+    favmeal.forEach(({strMeal,strMealThumb}) => {
+
+        let favdiv = document.createElement("div")
+
+        let name = document.createElement("h3")
+        name.innerText = strMeal
+
+        let image = document.createElement("img")
+        image.src = strMealThumb 
+
+        favdiv.append(image,name)
+
+        favcont.append(favdiv)
+
+    })
+}
 </script>
+
+
 
 
 

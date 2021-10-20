@@ -110,6 +110,10 @@
       set.push(food)
   
       localStorage.setItem("freshmenu" , JSON.stringify(set))
+
+      setTimeout(() => {
+          window.location.href = "search_result.html"
+      },1500)
   }
   
   
